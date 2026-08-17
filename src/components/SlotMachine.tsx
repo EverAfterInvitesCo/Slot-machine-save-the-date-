@@ -52,7 +52,7 @@ export const SlotMachine: React.FC = () => {
       <div className="relative mx-auto" style={{ width: '352px', height: '484px' }}>
         {/* Machine Shell Image */}
         <img
-          src={shellImage}
+          src={typeof shellImage === 'string' ? shellImage : (shellImage as any).default}
           alt="Slot machine"
           className="absolute inset-0 w-full h-full object-contain pointer-events-none z-10"
           draggable={false}
