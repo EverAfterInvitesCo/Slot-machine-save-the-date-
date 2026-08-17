@@ -60,7 +60,7 @@ export const SlotMachine: React.FC = () => {
           draggable={false}
         />
 
-        {/* Reels Window Display - Perfectly aligned inside the 3 cutout boxes */}
+        {/* Reels Window Display */}
         <div
           id="slot-reels-window"
           className="absolute z-20 flex items-center justify-between overflow-hidden px-1"
@@ -68,12 +68,12 @@ export const SlotMachine: React.FC = () => {
             top: '194px',
             left: '50%',
             transform: 'translateX(-50%)',
-            width: '168px',
-            height: '48px',
+            width: '184px',
+            height: '46px',
           }}
         >
-          {/* Reel 1: Day */}
-          <div className="w-[50px] h-full flex items-center justify-center overflow-hidden">
+          {/* Day Reel */}
+          <div className="w-[52px] h-full flex items-center justify-center overflow-hidden">
             <Reel
               values={DAY_VALUES}
               finalValue="19"
@@ -84,11 +84,11 @@ export const SlotMachine: React.FC = () => {
             />
           </div>
 
-          {/* Divider 1 */}
-          <div className="w-[1px] h-[32px] bg-[#b8860b]/40 flex-shrink-0" />
+          {/* Divider */}
+          <div className="w-[1px] h-[30px] bg-[#b8860b]/40 flex-shrink-0" />
 
-          {/* Reel 2: Month */}
-          <div className="w-[50px] h-full flex items-center justify-center overflow-hidden">
+          {/* Month Reel */}
+          <div className="w-[52px] h-full flex items-center justify-center overflow-hidden">
             <Reel
               values={MONTH_VALUES}
               finalValue="NOV"
@@ -99,11 +99,11 @@ export const SlotMachine: React.FC = () => {
             />
           </div>
 
-          {/* Divider 2 */}
-          <div className="w-[1px] h-[32px] bg-[#b8860b]/40 flex-shrink-0" />
+          {/* Divider */}
+          <div className="w-[1px] h-[30px] bg-[#b8860b]/40 flex-shrink-0" />
 
-          {/* Reel 3: Year */}
-          <div className="w-[50px] h-full flex items-center justify-center overflow-hidden">
+          {/* Year Reel */}
+          <div className="w-[52px] h-full flex items-center justify-center overflow-hidden">
             <Reel
               values={YEAR_VALUES}
               finalValue="2026"

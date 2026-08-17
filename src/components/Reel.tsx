@@ -57,14 +57,14 @@ export const Reel: React.FC<ReelProps> = ({
       <div 
         className="transition-transform duration-75 ease-out flex flex-col items-center w-full"
         style={{
-          transform: `translateY(-${currentIndex * 48}px)`,
+          transform: `translateY(-${currentIndex * 46}px)`,
         }}
       >
         {values.map((val, idx) => (
           <div 
             key={idx} 
             className="flex items-center justify-center w-full tracking-wide select-none"
-            style={{ height: '48px', minHeight: '48px' }}
+            style={{ height: '46px', minHeight: '46px' }}
           >
             {displayOverride !== null && idx === 0 ? displayOverride : val}
           </div>
