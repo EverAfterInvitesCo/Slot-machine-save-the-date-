@@ -3,31 +3,44 @@ import React, { useEffect, useState } from 'react';
 interface ReelProps {
   values: string[];
   finalValue: string;
+  initialDisplay: string;
   isSpinning: boolean;
   isRevealed: boolean;
   stopDelay: number;
 }
 
-export const Reel: React.FC<ReelProps> = ({ values, finalValue, isSpinning, isRevealed, stopDelay }) => {
+export const Reel: React.FC<ReelProps> = ({ 
+  values, 
+  finalValue, 
+  initialDisplay, 
+  isSpinning, 
+  isRevealed, 
+  stopDelay 
+}) => {
   const targetIndex = values.indexOf(finalValue) !== -1 ? values.indexOf(finalValue) : 0;
-  const initialIndex = 0; // Points to '♥' on initial load
-
-  const [currentIndex, setCurrentIndex] = useState(initialIndex);
+  
+  // Find an index to display initially (e.g., index 0)
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [displayOverride, setDisplayOverride] = useState<string | null>(initialDisplay);
 
   useEffect(() => {
     if (!isSpinning && !isRevealed) {
-      setCurrentIndex(initialIndex);
+      setDisplayOverride(initialDisplay);
+      setCurrentIndex(0);
       return;
     }
 
     if (isRevealed) {
+      setDisplayOverride(null);
       setCurrentIndex(targetIndex);
       return;
     }
 
+    // Clear initial override when spinning starts
+    setDisplayOverride(null);
+
     const interval = setInterval(() => {
-      // Exclude index 0 ('♥') during active scrambling random rotation
-      const randomIdx = Math.floor(Math.random() * (values.length - 1)) + 1;
+      const randomIdx = Math.floor(Math.random() * values.length);
       setCurrentIndex(randomIdx);
     }, 60);
 
@@ -40,7 +53,7 @@ export const Reel: React.FC<ReelProps> = ({ values, finalValue, isSpinning, isRe
       clearInterval(interval);
       clearTimeout(timer);
     };
-  }, [isSpinning, isRevealed, stopDelay, targetIndex, values]);
+  }, [isSpinning, isRevealed, stopDelay, targetIndex, values, initialDisplay]);
 
   return (
     <div className="relative h-full w-full overflow-hidden flex flex-col items-center justify-center font-serif text-sm font-bold text-[#5c1d29]">
@@ -56,7 +69,7 @@ export const Reel: React.FC<ReelProps> = ({ values, finalValue, isSpinning, isRe
             className="flex items-center justify-center w-full tracking-wide select-none"
             style={{ height: '48px', minHeight: '48px' }}
           >
-            {val}
+            {displayOverride !== null && idx === 0 ? displayOverride : val}
           </div>
         ))}
       </div>
