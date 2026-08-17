@@ -1,77 +1,69 @@
 import React, { useState } from 'react';
-import { Reel } from './Reel';
+import Reel from './Reel';
 
-const MONTH_VALUES = ["JAN", "FEB", "MAR", "APR", "JUN", "AUG", "OCT", "NOV", "DEC"];
-const YEAR_VALUES = ["2026"];
+interface SlotMachineProps {
+  onWin?: () => void;
+}
 
-export const SlotMachine: React.FC = () => {
-  const [gameState, setGameState] = useState<'idle' | 'spinning' | 'revealed'>('idle');
-  const [leverState, setLeverState] = useState<'idle' | 'pull' | 'pulling'>('idle');
+export const SlotMachine: React.FC<SlotMachineProps> = ({ onWin }) => {
+  const [spinning, setSpinning] = useState(false);
+  const [symbols, setSymbols] = useState(['💍', '🍸', '✨']);
 
-  const handleLeverClick = () => {
-    if (gameState === 'spinning') return;
-    setLeverState('pulling');
-    setGameState('spinning');
+  const handleSpin = () => {
+    if (spinning) return;
+    setSpinning(true);
 
+    // Simulate spinning effect
     setTimeout(() => {
-      setGameState('revealed');
-      setLeverState('idle');
-    }, 3500);
+      const winningSymbols = ['💍', '💍', '💍'];
+      setSymbols(winningSymbols);
+      setSpinning(false);
+      if (onWin) onWin();
+    }, 1500);
   };
 
   return (
     <div className="relative flex flex-col items-center justify-center w-full max-w-md mx-auto my-8 select-none">
-      <div className="relative w-full aspect-[4/3] flex items-center justify-center">
+      {/* Slot Machine Shell Graphic */}
+      <div className="relative w-full">
         <img
-          src={`${import.meta.env.BASE_URL}slot-machine-shell.png`}
-          alt="Slot machine"
-          className="absolute inset-0 w-full h-full object-contain pointer-events-none z-20"
+          src="./slot-machine-shell.png"
+          alt="Slot Machine"
+          className="w-full h-auto block pointer-events-none drop-shadow-2xl"
+          onError={(e) => {
+            // Fallback styling container if image is missing
+            console.error("Slot machine shell image failed to load");
+          }}
         />
 
-        <div className="absolute inset-x-[22%] inset-y-[28%] bg-white/90 rounded-xl shadow-inner flex items-center justify-center gap-2 px-4 z-10 overflow-hidden border border-rose-200">
-          <Reel
-            values={MONTH_VALUES}
-            finalValue="NOV"
-            spinning={gameState === 'spinning' || gameState === 'revealed'}
-            stopDelay={2500}
-          />
-          <div className="w-0.5 h-full rounded-full bg-rose-300/40" />
-          <Reel
-            values={YEAR_VALUES}
-            finalValue="2026"
-            spinning={gameState === 'spinning' || gameState === 'revealed'}
-            stopDelay={3500}
-          />
+        {/* Absolute Container Overlay for Reels */}
+        <div className="absolute top-[38%] left-[28%] w-[44%] h-[26%] flex justify-between items-center px-2 overflow-hidden bg-black/20 rounded-lg backdrop-blur-[2px]">
+          {symbols.map((symbol, index) => (
+            <Reel key={index} symbol={symbol} spinning={spinning} />
+          ))}
         </div>
 
-        <div
-          id="slot-trigger"
-          className={`absolute z-30 ${leverState === 'pulling' ? 'pulled' : ''}`}
-          onClick={gameState !== 'spinning' ? handleLeverClick : undefined}
-          style={{
-            cursor: gameState !== 'spinning' ? 'pointer' : 'default',
-            right: '-10px',
-            top: '35%'
-          }}
+        {/* Interactive Pull Lever / Button */}
+        <button
+          onClick={handleSpin}
+          disabled={spinning}
+          className="absolute right-[-12%] top-[45%] w-12 h-24 bg-gradient-to-b from-amber-400 to-amber-600 rounded-full shadow-lg border-2 border-amber-200 active:translate-y-2 transition-transform cursor-pointer flex flex-col items-center justify-between py-2 group disabled:opacity-70"
+          aria-label="Spin the slot machine"
         >
-          <div className="w-4 h-16 bg-rose-700 rounded-full shadow-lg transform origin-top transition-transform duration-300">
-            <div className="w-6 h-6 -left-1 bg-red-500 rounded-full absolute -top-4 shadow-md" />
-          </div>
-        </div>
+          <div className="w-8 h-8 rounded-full bg-red-600 shadow-inner border-2 border-red-400 group-hover:scale-105 transition-transform" />
+          <div className="w-2 h-16 bg-gradient-to-r from-gray-300 via-gray-100 to-gray-400 rounded-full" />
+          <div className="w-6 h-6 rounded-full bg-gray-700 shadow-md" />
+        </button>
       </div>
 
-      {gameState === 'idle' && (
-        <p
-          id="instruction-text"
-          className="text-sm tracking-widest uppercase animate-fade-in text-center font-medium"
-          style={{
-            fontFamily: "'Cormorant Garamond', Georgia, serif",
-            color: 'hsl(350 25% 45%)'
-          }}
-        >
-          Pull the lever to reveal
-        </p>
-      )}
+      {/* Action / Spin Button below if needed */}
+      <button
+        onClick={handleSpin}
+        disabled={spinning}
+        className="mt-6 px-8 py-3 bg-gradient-to-r from-pink-500 to-rose-500 text-white font-bold rounded-full shadow-lg hover:from-pink-600 hover:to-rose-600 transition-all transform active:scale-95 disabled:opacity-50 tracking-wider uppercase text-sm"
+      >
+        {spinning ? 'Spinning...' : 'Pull to Save the Date!'}
+      </button>
     </div>
   );
 };
