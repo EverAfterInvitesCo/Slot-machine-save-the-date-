@@ -5,9 +5,9 @@ import { GameState, LeverState } from '../types';
 import { useSound } from '../hooks/useSound';
 import { triggerJackpotConfetti } from '../utils/confetti';
 
-const DAY_VALUES = ['01', '05', '10', '14', '19', '22', '25', '28', '30'];
-const MONTH_VALUES = ['JAN', 'FEB', 'MAR', 'APR', 'JUN', 'AUG', 'OCT', 'NOV', 'DEC'];
-const YEAR_VALUES = ['2024', '2025', '2026', '2027', '2028', '2029', '2030'];
+const DAY_VALUES = ['♥', '01', '05', '10', '14', '19', '22', '25', '28', '30'];
+const MONTH_VALUES = ['♥', 'JAN', 'FEB', 'MAR', 'APR', 'JUN', 'AUG', 'OCT', 'NOV', 'DEC'];
+const YEAR_VALUES = ['♥', '2024', '2025', '2026', '2027', '2028', '2029', '2030'];
 
 export const SlotMachine: React.FC = () => {
   const [gameState, setGameState] = useState<GameState>('idle');
@@ -77,7 +77,8 @@ export const SlotMachine: React.FC = () => {
             <Reel
               values={DAY_VALUES}
               finalValue="19"
-              spinning={gameState === 'spinning' || gameState === 'revealed'}
+              isSpinning={gameState === 'spinning'}
+              isRevealed={gameState === 'revealed'}
               stopDelay={1500}
             />
           </div>
@@ -90,7 +91,8 @@ export const SlotMachine: React.FC = () => {
             <Reel
               values={MONTH_VALUES}
               finalValue="NOV"
-              spinning={gameState === 'spinning' || gameState === 'revealed'}
+              isSpinning={gameState === 'spinning'}
+              isRevealed={gameState === 'revealed'}
               stopDelay={2500}
             />
           </div>
@@ -103,7 +105,8 @@ export const SlotMachine: React.FC = () => {
             <Reel
               values={YEAR_VALUES}
               finalValue="2026"
-              spinning={gameState === 'spinning' || gameState === 'revealed'}
+              isSpinning={gameState === 'spinning'}
+              isRevealed={gameState === 'revealed'}
               stopDelay={3500}
             />
           </div>
