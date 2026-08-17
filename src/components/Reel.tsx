@@ -18,8 +18,6 @@ export const Reel: React.FC<ReelProps> = ({
   stopDelay 
 }) => {
   const targetIndex = values.indexOf(finalValue) !== -1 ? values.indexOf(finalValue) : 0;
-  
-  // Find an index to display initially (e.g., index 0)
   const [currentIndex, setCurrentIndex] = useState(0);
   const [displayOverride, setDisplayOverride] = useState<string | null>(initialDisplay);
 
@@ -36,7 +34,6 @@ export const Reel: React.FC<ReelProps> = ({
       return;
     }
 
-    // Clear initial override when spinning starts
     setDisplayOverride(null);
 
     const interval = setInterval(() => {
@@ -56,7 +53,7 @@ export const Reel: React.FC<ReelProps> = ({
   }, [isSpinning, isRevealed, stopDelay, targetIndex, values, initialDisplay]);
 
   return (
-    <div className="relative h-full w-full overflow-hidden flex flex-col items-center justify-center font-serif text-sm font-bold text-[#5c1d29]">
+    <div className="relative h-full w-full overflow-hidden flex flex-col items-center justify-center font-serif text-xs font-bold text-[#5c1d29]">
       <div 
         className="transition-transform duration-75 ease-out flex flex-col items-center w-full"
         style={{

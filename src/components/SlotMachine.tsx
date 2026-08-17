@@ -60,15 +60,15 @@ export const SlotMachine: React.FC = () => {
           draggable={false}
         />
 
-        {/* Reels Window Display with Mechanical Dividers */}
+        {/* Reels Window Display - Perfectly aligned inside the 3 cutout boxes */}
         <div
           id="slot-reels-window"
-          className="absolute z-20 flex items-center justify-between overflow-hidden px-1.5"
+          className="absolute z-20 flex items-center justify-between overflow-hidden px-1"
           style={{
             top: '194px',
             left: '50%',
             transform: 'translateX(-50%)',
-            width: '180px',
+            width: '168px',
             height: '48px',
           }}
         >
@@ -84,8 +84,8 @@ export const SlotMachine: React.FC = () => {
             />
           </div>
 
-          {/* Slot Machine Divider 1 */}
-          <div className="w-[2px] h-[36px] bg-gradient-to-b from-[#b8860b]/40 via-[#d4af37] to-[#b8860b]/45 shadow-sm rounded-full flex-shrink-0" />
+          {/* Divider 1 */}
+          <div className="w-[1px] h-[32px] bg-[#b8860b]/40 flex-shrink-0" />
 
           {/* Reel 2: Month */}
           <div className="w-[50px] h-full flex items-center justify-center overflow-hidden">
@@ -99,8 +99,8 @@ export const SlotMachine: React.FC = () => {
             />
           </div>
 
-          {/* Slot Machine Divider 2 */}
-          <div className="w-[2px] h-[36px] bg-gradient-to-b from-[#b8860b]/40 via-[#d4af37] to-[#b8860b]/45 shadow-sm rounded-full flex-shrink-0" />
+          {/* Divider 2 */}
+          <div className="w-[1px] h-[32px] bg-[#b8860b]/40 flex-shrink-0" />
 
           {/* Reel 3: Year */}
           <div className="w-[50px] h-full flex items-center justify-center overflow-hidden">
