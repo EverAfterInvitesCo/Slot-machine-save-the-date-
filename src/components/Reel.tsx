@@ -17,13 +17,11 @@ export const Reel: React.FC<ReelProps> = ({ values, finalValue, spinning, stopDe
       return;
     }
 
-    // Rapidly cycle through random indices while spinning
     const interval = setInterval(() => {
       const randomIdx = Math.floor(Math.random() * values.length);
       setCurrentIndex(randomIdx);
-    }, 70);
+    }, 60);
 
-    // Stop precisely at the correct final target index after the designated stopDelay
     const timer = setTimeout(() => {
       clearInterval(interval);
       setCurrentIndex(targetIndex);
@@ -36,18 +34,18 @@ export const Reel: React.FC<ReelProps> = ({ values, finalValue, spinning, stopDe
   }, [spinning, stopDelay, targetIndex, values.length]);
 
   return (
-    <div className="relative h-full w-full overflow-hidden flex flex-col items-center justify-center font-serif text-base font-bold text-[#5c1d29]">
+    <div className="relative h-full w-full overflow-hidden flex flex-col items-center justify-center font-serif text-sm font-bold text-[#5c1d29]">
       <div 
         className="transition-transform duration-75 ease-out flex flex-col items-center w-full"
         style={{
-          transform: `translateY(-${currentIndex * 50}px)`,
+          transform: `translateY(-${currentIndex * 48}px)`,
         }}
       >
         {values.map((val, idx) => (
           <div 
             key={idx} 
-            className="flex items-center justify-center w-full tracking-wider select-none"
-            style={{ height: '50px', minHeight: '50px' }}
+            className="flex items-center justify-center w-full tracking-wide select-none"
+            style={{ height: '48px', minHeight: '48px' }}
           >
             {val}
           </div>
