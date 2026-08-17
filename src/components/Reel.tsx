@@ -1,12 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ReelProps } from '../types';
 
-export const Reel: React.FC<ReelProps> = ({
+export interface ReelProps {
+  values: string[];
+  finalValue: string;
+  spinning: boolean;
+  stopDelay: number;
+}
+
+export default function Reel({
   values,
   finalValue,
   spinning,
   stopDelay,
-}) => {
+}: ReelProps) {
   const [hasStopped, setHasStopped] = useState(false);
   const [displayedValues, setDisplayedValues] = useState<string[]>(['♡', '♡', '♡']);
   const intervalRef = useRef<number | null>(null);
@@ -105,4 +111,4 @@ export const Reel: React.FC<ReelProps> = ({
       </div>
     </div>
   );
-};
+}

@@ -7,19 +7,21 @@ interface SlotMachineProps {
 
 export const SlotMachine: React.FC<SlotMachineProps> = ({ onWin }) => {
   const [spinning, setSpinning] = useState(false);
-  const [symbols, setSymbols] = useState(['💍', '🍸', '✨']);
+  const [finalValues, setFinalValues] = useState(['SAVE', 'THE', 'DATE']);
+
+  // Reel symbol options
+  const reelOptions = [['SAVE', 'DATE', 'LOVE'], ['THE', 'YOUR', 'OUR'], ['DATE', 'DAY', 'TIME']];
 
   const handleSpin = () => {
     if (spinning) return;
     setSpinning(true);
 
-    // Simulate spinning effect
+    // Simulate spin completion after delay
     setTimeout(() => {
-      const winningSymbols = ['💍', '💍', '💍'];
-      setSymbols(winningSymbols);
+      setFinalValues(['SAVE', 'THE', 'DATE']);
       setSpinning(false);
       if (onWin) onWin();
-    }, 1500);
+    }, 2000);
   };
 
   return (
@@ -27,19 +29,21 @@ export const SlotMachine: React.FC<SlotMachineProps> = ({ onWin }) => {
       {/* Slot Machine Shell Graphic */}
       <div className="relative w-full">
         <img
-          src="./slot-machine-shell.png"
+          src={`${import.meta.env.BASE_URL}slot-machine-shell.png`}
           alt="Slot Machine"
           className="w-full h-auto block pointer-events-none drop-shadow-2xl"
-          onError={(e) => {
-            // Fallback styling container if image is missing
-            console.error("Slot machine shell image failed to load");
-          }}
         />
 
         {/* Absolute Container Overlay for Reels */}
-        <div className="absolute top-[38%] left-[28%] w-[44%] h-[26%] flex justify-between items-center px-2 overflow-hidden bg-black/20 rounded-lg backdrop-blur-[2px]">
-          {symbols.map((symbol, index) => (
-            <Reel key={index} symbol={symbol} spinning={spinning} />
+        <div className="absolute top-[38%] left-[28%] w-[44%] h-[26%] flex justify-between items-center px-1.5 gap-1 overflow-hidden bg-black/20 rounded-lg backdrop-blur-[2px]">
+          {finalValues.map((finalVal, index) => (
+            <Reel
+              key={index}
+              values={reelOptions[index]}
+              finalValue={finalVal}
+              spinning={spinning}
+              stopDelay={800 + index * 400}
+            />
           ))}
         </div>
 
@@ -56,7 +60,7 @@ export const SlotMachine: React.FC<SlotMachineProps> = ({ onWin }) => {
         </button>
       </div>
 
-      {/* Action / Spin Button below if needed */}
+      {/* Action / Spin Button below */}
       <button
         onClick={handleSpin}
         disabled={spinning}
