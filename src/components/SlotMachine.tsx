@@ -60,20 +60,20 @@ export const SlotMachine: React.FC = () => {
           draggable={false}
         />
 
-        {/* Reels Window Display */}
+        {/* Reels Window Display (Grid layout ensures 3 columns fit perfectly) */}
         <div
           id="slot-reels-window"
-          className="absolute z-20 flex items-center justify-between overflow-hidden px-1"
+          className="absolute z-20 grid grid-cols-3 items-center overflow-hidden px-1"
           style={{
             top: '194px',
             left: '50%',
             transform: 'translateX(-50%)',
-            width: '196px',
+            width: '200px',
             height: '46px',
           }}
         >
           {/* Day Reel */}
-          <div className="w-[56px] h-full flex items-center justify-center overflow-hidden flex-shrink-0">
+          <div className="h-full flex items-center justify-center overflow-hidden">
             <Reel
               values={DAY_VALUES}
               finalValue="19"
@@ -84,11 +84,8 @@ export const SlotMachine: React.FC = () => {
             />
           </div>
 
-          {/* Divider */}
-          <div className="w-[1px] h-[30px] bg-[#b8860b]/40 flex-shrink-0" />
-
           {/* Month Reel */}
-          <div className="w-[56px] h-full flex items-center justify-center overflow-hidden flex-shrink-0">
+          <div className="h-full flex items-center justify-center overflow-hidden border-x border-[#b8860b]/40">
             <Reel
               values={MONTH_VALUES}
               finalValue="NOV"
@@ -99,11 +96,8 @@ export const SlotMachine: React.FC = () => {
             />
           </div>
 
-          {/* Divider */}
-          <div className="w-[1px] h-[30px] bg-[#b8860b]/40 flex-shrink-0" />
-
           {/* Year Reel */}
-          <div className="w-[56px] h-full flex items-center justify-center overflow-hidden flex-shrink-0">
+          <div className="h-full flex items-center justify-center overflow-hidden">
             <Reel
               values={YEAR_VALUES}
               finalValue="2026"
