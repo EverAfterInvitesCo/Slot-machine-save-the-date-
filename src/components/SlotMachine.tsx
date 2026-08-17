@@ -52,7 +52,7 @@ export const SlotMachine: React.FC = () => {
         className="relative mx-auto flex flex-col items-center"
         style={{ width: '360px', height: '520px' }}
       >
-        {/* Transparent PNG Shell Image from public/assets/ */}
+        {/* Transparent PNG Shell Image */}
         <img
           src={`${import.meta.env.BASE_URL}assets/slot-machine-shell.png`}
           alt="Slot Machine Shell"
@@ -60,16 +60,16 @@ export const SlotMachine: React.FC = () => {
           draggable={false}
         />
 
-        {/* Reels Window Display */}
+        {/* Reels Window Display - Adjusted dimensions to match the shell cutout */}
         <div
           id="slot-reels-window"
-          className="absolute z-20 flex items-center justify-center overflow-hidden gap-1 px-2"
+          className="absolute z-20 flex items-center justify-center overflow-hidden gap-1 px-1 bg-[#1a080d]/10 rounded-sm"
           style={{
-            top: '190px',
-            left: '52%',
+            top: '208px',
+            left: '50%',
             transform: 'translateX(-50%)',
-            width: '175px',
-            height: '60px',
+            width: '180px',
+            height: '46px',
           }}
         >
           <Reel
@@ -78,14 +78,14 @@ export const SlotMachine: React.FC = () => {
             spinning={gameState === 'spinning' || gameState === 'revealed'}
             stopDelay={1500}
           />
-          <div className="w-0.5 h-3/4 rounded-full bg-rose-300/40" />
+          <div className="w-[1px] h-3/4 bg-rose-900/20" />
           <Reel
             values={MONTH_VALUES}
             finalValue="NOV"
             spinning={gameState === 'spinning' || gameState === 'revealed'}
             stopDelay={2500}
           />
-          <div className="w-0.5 h-3/4 rounded-full bg-rose-300/40" />
+          <div className="w-[1px] h-3/4 bg-rose-900/20" />
           <Reel
             values={YEAR_VALUES}
             finalValue="2026"
@@ -100,8 +100,8 @@ export const SlotMachine: React.FC = () => {
           className={`absolute z-30 cursor-pointer ${leverState === 'pulling' ? 'pulled' : ''}`}
           onClick={gameState !== 'spinning' ? handleLeverClick : undefined}
           style={{
-            top: '210px',
-            right: '28px',
+            top: '230px',
+            right: '25px',
             cursor: gameState === 'spinning' ? 'not-allowed' : 'pointer',
           }}
           role="button"
