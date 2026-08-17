@@ -33,18 +33,18 @@ export const Reel: React.FC<ReelProps> = ({ values, finalValue, spinning, stopDe
   }, [spinning, stopDelay, targetIndex, values.length]);
 
   return (
-    <div className="relative h-full flex-1 overflow-hidden flex flex-col items-center justify-center font-serif text-sm font-bold text-[#5c1d29]">
+    <div className="relative h-full flex-1 overflow-hidden flex flex-col items-center justify-center font-serif text-base font-bold text-[#5c1d29]">
       <div 
-        className="transition-transform duration-200 ease-out flex flex-col items-center"
+        className="transition-transform duration-200 ease-out flex flex-col items-center w-full"
         style={{
-          transform: `translateY(-${currentIndex * 46}px)`,
+          transform: `translateY(-${currentIndex * 52}px)`,
         }}
       >
         {values.map((val, idx) => (
           <div 
             key={idx} 
-            className="h-[46px] flex items-center justify-center w-full tracking-wider select-none"
-            style={{ height: '46px' }}
+            className="flex items-center justify-center w-full tracking-wider select-none"
+            style={{ height: '52px', minHeight: '52px' }}
           >
             {val}
           </div>

@@ -60,16 +60,16 @@ export const SlotMachine: React.FC = () => {
           draggable={false}
         />
 
-        {/* Reels Window Display - Adjusted dimensions to match the shell cutout */}
+        {/* Reels Window Display */}
         <div
           id="slot-reels-window"
-          className="absolute z-20 flex items-center justify-center overflow-hidden gap-1 px-1 bg-[#1a080d]/10 rounded-sm"
+          className="absolute z-20 flex items-center justify-center overflow-hidden gap-1 px-2"
           style={{
-            top: '208px',
+            top: '202px',
             left: '50%',
             transform: 'translateX(-50%)',
-            width: '180px',
-            height: '46px',
+            width: '185px',
+            height: '52px',
           }}
         >
           <Reel
