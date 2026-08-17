@@ -8,15 +8,12 @@ interface ReelProps {
 }
 
 export const Reel: React.FC<ReelProps> = ({ values, finalValue, spinning, stopDelay }) => {
-  const [displayValues, setDisplayValues] = useState<string[]>(values);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isStopped, setIsStopped] = useState(false);
 
-  // Shuffle or loop values during spinning
   useEffect(() => {
     if (!spinning) {
       setIsStopped(false);
-      // Ensure the final value is properly positioned when idle
       const targetIdx = values.indexOf(finalValue);
       if (targetIdx !== -1) {
         setCurrentIndex(targetIdx);

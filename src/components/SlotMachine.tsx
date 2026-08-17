@@ -52,24 +52,23 @@ export const SlotMachine: React.FC = () => {
         className="relative mx-auto flex flex-col items-center"
         style={{ width: '360px', height: '520px' }}
       >
-        {/* The 3D Shell Image with mix-blend-mode to remove the black background */}
+        {/* Transparent PNG Shell Image from public/assets/ */}
         <img
-          src={`${import.meta.env.BASE_URL}slot-machine-shell.jpg`}
+          src={`${import.meta.env.BASE_URL}assets/slot-machine-shell.png`}
           alt="Slot Machine Shell"
           className="absolute inset-0 w-full h-full object-contain pointer-events-none z-10"
-          style={{ mixBlendMode: 'multiply' }}
           draggable={false}
         />
 
-        {/* Reels Window Display - Shifted up to align directly with the screen cutout */}
+        {/* Reels Window Display */}
         <div
           id="slot-reels-window"
           className="absolute z-20 flex items-center justify-center overflow-hidden gap-1 px-2"
           style={{
-            top: '185px',
-            left: '50%',
+            top: '190px',
+            left: '52%',
             transform: 'translateX(-50%)',
-            width: '185px',
+            width: '175px',
             height: '60px',
           }}
         >
