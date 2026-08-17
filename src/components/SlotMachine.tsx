@@ -1,86 +1,34 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { Reel } from './Reel';
-import { WeddingCard } from './WeddingCard';
-import { GameState, LeverState } from '../types';
-import { useSound } from '../hooks/useSound';
-import { triggerJackpotConfetti } from '../utils/confetti';
 
-const DAY_VALUES = ['01', '05', '10', '14', '19', '22', '25', '28', '30'];
-const MONTH_VALUES = ['JAN', 'FEB', 'MAR', 'APR', 'JUN', 'AUG', 'OCT', 'NOV', 'DEC'];
-const YEAR_VALUES = ['2024', '2025', '2026', '2027', '2028', '2029', '2030'];
+const MONTH_VALUES = ["JAN", "FEB", "MAR", "APR", "JUN", "AUG", "OCT", "NOV", "DEC"];
+const YEAR_VALUES = ["2026"];
 
 export const SlotMachine: React.FC = () => {
-  const [gameState, setGameState] = useState<GameState>('idle');
-  const [leverState, setLeverState] = useState<LeverState>('idle');
-  const { startSpin, playReveal, stopAll } = useSound();
+  const [gameState, setGameState] = useState<'idle' | 'spinning' | 'revealed'>('idle');
+  const [leverState, setLeverState] = useState<'idle' | 'pull' | 'pulling'>('idle');
 
-  // Points directly to the root of public/ folder with the GitHub Pages base path
-  const shellImagePath = `${import.meta.env.BASE_URL}slot-machine-shell.png`;
-
-  const handleSpinSequence = useCallback(() => {
+  const handleLeverClick = () => {
+    if (gameState === 'spinning') return;
     setLeverState('pulling');
     setGameState('spinning');
-    startSpin();
-
-    setTimeout(() => {
-      setLeverState('idle');
-    }, 500);
 
     setTimeout(() => {
       setGameState('revealed');
-      playReveal();
-      triggerJackpotConfetti();
-    }, 3800);
-  }, [startSpin, playReveal]);
-
-  const handleLeverClick = useCallback(() => {
-    if (gameState === 'spinning') return;
-
-    if (gameState === 'revealed') {
-      stopAll();
-      setGameState('idle');
-      requestAnimationFrame(() => {
-        handleSpinSequence();
-      });
-      return;
-    }
-
-    handleSpinSequence();
-  }, [gameState, stopAll, handleSpinSequence]);
+      setLeverState('idle');
+    }, 3500);
+  };
 
   return (
-    <div id="slot-machine-container" className="flex flex-col items-center gap-5 w-full max-w-lg">
-      {/* Slot Machine Shell */}
-      <div className="relative mx-auto" style={{ width: '352px', height: '484px' }}>
-        {/* Machine Shell Image */}
+    <div className="relative flex flex-col items-center justify-center w-full max-w-md mx-auto my-8 select-none">
+      <div className="relative w-full aspect-[4/3] flex items-center justify-center">
         <img
-          src={shellImagePath}
+          src={`${import.meta.env.BASE_URL}slot-machine-shell.png`}
           alt="Slot machine"
-          className="absolute inset-0 w-full h-full object-contain pointer-events-none z-10"
-          draggable={false}
+          className="absolute inset-0 w-full h-full object-contain pointer-events-none z-20"
         />
 
-        {/* Reels Window Display */}
-        <div
-          id="slot-reels-window"
-          className="absolute z-20 flex items-center justify-center overflow-hidden shadow-md rounded-2xl gap-px"
-          style={{
-            top: '31.5%',
-            left: '30%',
-            width: '133.5px',
-            height: '73px',
-            background: 'linear-gradient(135deg, hsl(350 30% 97%), hsl(20 40% 96%))',
-            borderRadius: '8px',
-            boxShadow: 'inset 0 1px 3px rgba(0,0,0,0.08)',
-          }}
-        >
-          <Reel
-            values={DAY_VALUES}
-            finalValue="19"
-            spinning={gameState === 'spinning' || gameState === 'revealed'}
-            stopDelay={1500}
-          />
-          <div className="w-0.5 h-full rounded-full bg-rose-300/40" />
+        <div className="absolute inset-x-[22%] inset-y-[28%] bg-white/90 rounded-xl shadow-inner flex items-center justify-center gap-2 px-4 z-10 overflow-hidden border border-rose-200">
           <Reel
             values={MONTH_VALUES}
             finalValue="NOV"
@@ -96,53 +44,36 @@ export const SlotMachine: React.FC = () => {
           />
         </div>
 
-        {/* Animated Pull Lever Trigger */}
         <div
           id="slot-trigger"
           className={`absolute z-30 ${leverState === 'pulling' ? 'pulled' : ''}`}
           onClick={gameState !== 'spinning' ? handleLeverClick : undefined}
           style={{
-            cursor: gameState === 'spinning' ? 'not-allowed' : 'pointer',
-          }}
-          role="button"
-          aria-label="Pull slot machine lever"
-          tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              handleLeverClick();
-            }
+            cursor: gameState !== 'spinning' ? 'pointer' : 'default',
+            right: '-10px',
+            top: '35%'
           }}
         >
-          <div className="arm">
-            <div className="knob" />
-          </div>
-          <div className="arm-shadow" />
-          <div className="ring1">
-            <div className="shadow" />
-          </div>
-          <div className="ring2">
-            <div className="shadow" />
+          <div className="w-4 h-16 bg-rose-700 rounded-full shadow-lg transform origin-top transition-transform duration-300">
+            <div className="w-6 h-6 -left-1 bg-red-500 rounded-full absolute -top-4 shadow-md" />
           </div>
         </div>
       </div>
 
-      {/* Helper prompt when idle */}
       {gameState === 'idle' && (
         <p
           id="instruction-text"
           className="text-sm tracking-widest uppercase animate-fade-in text-center font-medium"
           style={{
             fontFamily: "'Cormorant Garamond', Georgia, serif",
-            color: 'hsl(350 25% 45%)',
+            color: 'hsl(350 25% 45%)'
           }}
         >
           Pull the lever to reveal
         </p>
       )}
-
-      {/* Luxury Wedding Stationery Card upon reveal */}
-      {gameState === 'revealed' && <WeddingCard />}
     </div>
   );
 };
+
+export default SlotMachine;
