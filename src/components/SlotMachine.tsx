@@ -63,35 +63,39 @@ export const SlotMachine: React.FC = () => {
         {/* Reels Window Display */}
         <div
           id="slot-reels-window"
-          className="absolute z-20 flex items-center justify-center overflow-hidden gap-1 px-2"
+          className="absolute z-20 flex items-center justify-between overflow-hidden px-1"
           style={{
-            top: '202px',
+            top: '191px',
             left: '50%',
             transform: 'translateX(-50%)',
-            width: '185px',
-            height: '52px',
+            width: '196px',
+            height: '50px',
           }}
         >
-          <Reel
-            values={DAY_VALUES}
-            finalValue="19"
-            spinning={gameState === 'spinning' || gameState === 'revealed'}
-            stopDelay={1500}
-          />
-          <div className="w-[1px] h-3/4 bg-rose-900/20" />
-          <Reel
-            values={MONTH_VALUES}
-            finalValue="NOV"
-            spinning={gameState === 'spinning' || gameState === 'revealed'}
-            stopDelay={2500}
-          />
-          <div className="w-[1px] h-3/4 bg-rose-900/20" />
-          <Reel
-            values={YEAR_VALUES}
-            finalValue="2026"
-            spinning={gameState === 'spinning' || gameState === 'revealed'}
-            stopDelay={3500}
-          />
+          <div className="w-[60px] h-full flex items-center justify-center overflow-hidden">
+            <Reel
+              values={DAY_VALUES}
+              finalValue="19"
+              spinning={gameState === 'spinning' || gameState === 'revealed'}
+              stopDelay={1500}
+            />
+          </div>
+          <div className="w-[60px] h-full flex items-center justify-center overflow-hidden">
+            <Reel
+              values={MONTH_VALUES}
+              finalValue="NOV"
+              spinning={gameState === 'spinning' || gameState === 'revealed'}
+              stopDelay={2500}
+            />
+          </div>
+          <div className="w-[60px] h-full flex items-center justify-center overflow-hidden">
+            <Reel
+              values={YEAR_VALUES}
+              finalValue="2026"
+              spinning={gameState === 'spinning' || gameState === 'revealed'}
+              stopDelay={3500}
+            />
+          </div>
         </div>
 
         {/* Animated Pull Lever Trigger */}
