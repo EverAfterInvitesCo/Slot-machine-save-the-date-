@@ -1,0 +1,6 @@
+{
+  "name": "Save The Date",
+  "description": "Interactive Save the Date slot machine invitation for Yasmeen & Omar on 19 November 2026 at AZHA New Cairo Venue.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
