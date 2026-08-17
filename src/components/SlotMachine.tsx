@@ -52,24 +52,25 @@ export const SlotMachine: React.FC = () => {
         className="relative mx-auto flex flex-col items-center"
         style={{ width: '360px', height: '520px' }}
       >
-        {/* The Actual 3D Shell Image (.jpg) */}
+        {/* The 3D Shell Image with mix-blend-mode to remove the black background */}
         <img
           src={`${import.meta.env.BASE_URL}slot-machine-shell.jpg`}
           alt="Slot Machine Shell"
           className="absolute inset-0 w-full h-full object-contain pointer-events-none z-10"
+          style={{ mixBlendMode: 'multiply' }}
           draggable={false}
         />
 
-        {/* Reels Window Display - Positioned to align with the image's screen cutout */}
+        {/* Reels Window Display - Shifted up to align directly with the screen cutout */}
         <div
           id="slot-reels-window"
           className="absolute z-20 flex items-center justify-center overflow-hidden gap-1 px-2"
           style={{
-            top: '215px',
+            top: '185px',
             left: '50%',
             transform: 'translateX(-50%)',
-            width: '190px',
-            height: '65px',
+            width: '185px',
+            height: '60px',
           }}
         >
           <Reel
@@ -100,8 +101,8 @@ export const SlotMachine: React.FC = () => {
           className={`absolute z-30 cursor-pointer ${leverState === 'pulling' ? 'pulled' : ''}`}
           onClick={gameState !== 'spinning' ? handleLeverClick : undefined}
           style={{
-            top: '235px',
-            right: '25px',
+            top: '210px',
+            right: '28px',
             cursor: gameState === 'spinning' ? 'not-allowed' : 'pointer',
           }}
           role="button"

@@ -1,59 +1,67 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface ReelProps {
   values: string[];
   finalValue: string;
   spinning: boolean;
-  stopDelay?: number;
+  stopDelay: number;
 }
 
-export const Reel: React.FC<ReelProps> = ({
-  values,
-  finalValue,
-  spinning,
-  stopDelay = 1000,
-}) => {
-  const [displayValue, setDisplayValue] = useState(finalValue);
-  const intervalRef = useRef<number | null>(null);
+export const Reel: React.FC<ReelProps> = ({ values, finalValue, spinning, stopDelay }) => {
+  const [displayValues, setDisplayValues] = useState<string[]>(values);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isStopped, setIsStopped] = useState(false);
 
+  // Shuffle or loop values during spinning
   useEffect(() => {
-    if (spinning) {
-      // Rapidly cycle through values while spinning
-      intervalRef.current = window.setInterval(() => {
-        const randomIndex = Math.floor(Math.random() * values.length);
-        setDisplayValue(values[randomIndex]);
-      }, 80);
-
-      // Stop on final value after delay
-      const timeout = setTimeout(() => {
-        if (intervalRef.current) clearInterval(intervalRef.current);
-        setDisplayValue(finalValue);
-      }, stopDelay);
-
-      return () => {
-        if (intervalRef.current) clearInterval(intervalRef.current);
-        clearTimeout(timeout);
-      };
-    } else {
-      setDisplayValue(finalValue);
+    if (!spinning) {
+      setIsStopped(false);
+      // Ensure the final value is properly positioned when idle
+      const targetIdx = values.indexOf(finalValue);
+      if (targetIdx !== -1) {
+        setCurrentIndex(targetIdx);
+      }
+      return;
     }
-  }, [spinning, finalValue, values, stopDelay]);
+
+    const timer = setTimeout(() => {
+      setIsStopped(true);
+      const targetIdx = values.indexOf(finalValue);
+      if (targetIdx !== -1) {
+        setCurrentIndex(targetIdx);
+      }
+    }, stopDelay);
+
+    const interval = setInterval(() => {
+      if (!isStopped) {
+        setCurrentIndex((prev) => (prev + 1) % values.length);
+      }
+    }, 80);
+
+    return () => {
+      clearTimeout(timer);
+      clearInterval(interval);
+    };
+  }, [spinning, stopDelay, finalValue, values, isStopped]);
 
   return (
-    <div className="flex-1 h-full flex items-center justify-center overflow-hidden">
-      <span
-        className={`font-bold transition-all duration-150 ${
-          spinning ? 'blur-[0.5px] scale-95 opacity-80' : 'scale-100 opacity-100'
-        }`}
+    <div className="relative h-full flex-1 overflow-hidden flex flex-col items-center justify-center font-serif text-lg font-bold text-[#883344]">
+      <div 
+        className="transition-transform duration-300 ease-out flex flex-col items-center"
         style={{
-          fontFamily: "'Cormorant Garamond', Georgia, serif",
-          fontSize: '1.35rem',
-          color: 'hsl(350, 30%, 30%)',
-          letterSpacing: '0.05em',
+          transform: `translateY(-${currentIndex * 40}px)`,
         }}
       >
-        {displayValue}
-      </span>
+        {values.map((val, idx) => (
+          <div 
+            key={idx} 
+            className="h-[40px] flex items-center justify-center w-full tracking-wider"
+            style={{ minHeight: '40px' }}
+          >
+            {val}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
