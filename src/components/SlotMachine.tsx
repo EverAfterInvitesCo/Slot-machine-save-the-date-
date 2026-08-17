@@ -48,16 +48,15 @@ export const SlotMachine: React.FC = () => {
 
   return (
     <div id="slot-machine-container" className="flex flex-col items-center gap-5 w-full max-w-lg">
-      {/* Slot Machine Shell */}
-      <div className="relative mx-auto" style={{ width: '352px', height: '484px' }}>
-        {/* Machine Shell Image */}
-        <img
-          src={shellImage}
-          alt="Slot machine"
-          className="absolute inset-0 w-full h-full object-contain pointer-events-none z-10"
-          draggable={false}
-        />
-
+      {/* Slot Machine Shell using Background Image */}
+      <div 
+        className="relative mx-auto bg-no-repeat bg-contain bg-center" 
+        style={{ 
+          width: '352px', 
+          height: '484px',
+          backgroundImage: `url(${shellImage})`
+        }}
+      >
         {/* Reels Window Display */}
         <div
           id="slot-reels-window"
