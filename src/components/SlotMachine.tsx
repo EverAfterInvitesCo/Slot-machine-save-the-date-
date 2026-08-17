@@ -4,7 +4,6 @@ import { WeddingCard } from './WeddingCard';
 import { GameState, LeverState } from '../types';
 import { useSound } from '../hooks/useSound';
 import { triggerJackpotConfetti } from '../utils/confetti';
-import shellImage from '../assets/slot-machine-shell.png';
 
 const DAY_VALUES = ['01', '05', '10', '14', '19', '22', '25', '28', '30'];
 const MONTH_VALUES = ['JAN', 'FEB', 'MAR', 'APR', 'JUN', 'AUG', 'OCT', 'NOV', 'DEC'];
@@ -52,7 +51,7 @@ export const SlotMachine: React.FC = () => {
       <div className="relative mx-auto" style={{ width: '352px', height: '484px' }}>
         {/* Machine Shell Image */}
         <img
-          src={typeof shellImage === 'string' ? shellImage : (shellImage as any).default}
+          src={`${import.meta.env.BASE_URL}slot-machine-shell.png`}
           alt="Slot machine"
           className="absolute inset-0 w-full h-full object-contain pointer-events-none z-10"
           draggable={false}
