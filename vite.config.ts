@@ -5,7 +5,7 @@ import { defineConfig } from 'vite';
 
 export default defineConfig(() => {
   return {
-    base: './',
+    base: '/Slot-machine-save-the-date-/',
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
