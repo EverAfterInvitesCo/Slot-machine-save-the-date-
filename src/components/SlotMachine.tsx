@@ -14,8 +14,8 @@ export const SlotMachine: React.FC = () => {
   const [leverState, setLeverState] = useState<LeverState>('idle');
   const { startSpin, playReveal, stopAll } = useSound();
 
-  // Construct correct base URL path for GitHub Pages subpath
-  const shellImagePath = `${import.meta.env.BASE_URL}assets/slot-machine-shell.png`;
+  // Points directly to the root of public/ folder with the GitHub Pages base path
+  const shellImagePath = `${import.meta.env.BASE_URL}slot-machine-shell.png`;
 
   const handleSpinSequence = useCallback(() => {
     setLeverState('pulling');
