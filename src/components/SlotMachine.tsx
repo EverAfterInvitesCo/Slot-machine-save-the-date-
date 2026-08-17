@@ -52,15 +52,15 @@ export const SlotMachine: React.FC = () => {
         className="relative mx-auto flex flex-col items-center"
         style={{ width: '360px', height: '520px' }}
       >
-        {/* The Actual AI-Generated 3D Shell Image */}
+        {/* The Actual 3D Shell Image (.jpg) */}
         <img
-          src={`${import.meta.env.BASE_URL}slot-machine-shell.png`}
+          src={`${import.meta.env.BASE_URL}slot-machine-shell.jpg`}
           alt="Slot Machine Shell"
           className="absolute inset-0 w-full h-full object-contain pointer-events-none z-10"
           draggable={false}
         />
 
-        {/* Reels Window Display - Positioned to align with the image's cutout screen */}
+        {/* Reels Window Display - Positioned to align with the image's screen cutout */}
         <div
           id="slot-reels-window"
           className="absolute z-20 flex items-center justify-center overflow-hidden gap-1 px-2"
@@ -94,7 +94,7 @@ export const SlotMachine: React.FC = () => {
           />
         </div>
 
-        {/* Animated Pull Lever Trigger - Positioned to match the side lever */}
+        {/* Animated Pull Lever Trigger */}
         <div
           id="slot-trigger"
           className={`absolute z-30 cursor-pointer ${leverState === 'pulling' ? 'pulled' : ''}`}
