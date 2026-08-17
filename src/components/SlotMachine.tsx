@@ -73,7 +73,7 @@ export const SlotMachine: React.FC = () => {
           }}
         >
           {/* Day Reel */}
-          <div className="w-[52px] h-full flex items-center justify-center overflow-hidden">
+          <div className="w-[52px] h-full flex items-center justify-center overflow-hidden flex-shrink-0">
             <Reel
               values={DAY_VALUES}
               finalValue="19"
@@ -88,7 +88,7 @@ export const SlotMachine: React.FC = () => {
           <div className="w-[1px] h-[30px] bg-[#b8860b]/40 flex-shrink-0" />
 
           {/* Month Reel */}
-          <div className="w-[52px] h-full flex items-center justify-center overflow-hidden">
+          <div className="w-[52px] h-full flex items-center justify-center overflow-hidden flex-shrink-0">
             <Reel
               values={MONTH_VALUES}
               finalValue="NOV"
@@ -103,7 +103,7 @@ export const SlotMachine: React.FC = () => {
           <div className="w-[1px] h-[30px] bg-[#b8860b]/40 flex-shrink-0" />
 
           {/* Year Reel */}
-          <div className="w-[52px] h-full flex items-center justify-center overflow-hidden">
+          <div className="w-[52px] h-full flex items-center justify-center overflow-hidden flex-shrink-0">
             <Reel
               values={YEAR_VALUES}
               finalValue="2026"
