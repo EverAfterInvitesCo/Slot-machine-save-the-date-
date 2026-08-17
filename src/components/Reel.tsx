@@ -1,114 +1,61 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-export interface ReelProps {
+interface ReelProps {
   values: string[];
   finalValue: string;
   spinning: boolean;
-  stopDelay: number;
+  stopDelay?: number;
 }
 
-export default function Reel({
+export const Reel: React.FC<ReelProps> = ({
   values,
   finalValue,
   spinning,
-  stopDelay,
-}: ReelProps) {
-  const [hasStopped, setHasStopped] = useState(false);
-  const [displayedValues, setDisplayedValues] = useState<string[]>(['♡', '♡', '♡']);
+  stopDelay = 1000,
+}) => {
+  const [displayValue, setDisplayValue] = useState(finalValue);
   const intervalRef = useRef<number | null>(null);
 
   useEffect(() => {
-    if (spinning && !hasStopped) {
-      let index = 0;
+    if (spinning) {
+      // Rapidly cycle through values while spinning
       intervalRef.current = window.setInterval(() => {
-        index = (index + 1) % values.length;
-        setDisplayedValues([
-          values[index % values.length],
-          values[(index + 1) % values.length],
-          values[(index + 2) % values.length],
-        ]);
-      }, 60);
+        const randomIndex = Math.floor(Math.random() * values.length);
+        setDisplayValue(values[randomIndex]);
+      }, 80);
 
-      const timer = window.setTimeout(() => {
-        if (intervalRef.current !== null) {
-          clearInterval(intervalRef.current);
-        }
-        const finalIdx = values.indexOf(finalValue);
-        const prevIdx = (finalIdx - 1 + values.length) % values.length;
-        const nextIdx = (finalIdx + 1) % values.length;
-        setDisplayedValues([
-          values[prevIdx],
-          finalValue,
-          values[nextIdx],
-        ]);
-        setHasStopped(true);
+      // Stop on final value after delay
+      const timeout = setTimeout(() => {
+        if (intervalRef.current) clearInterval(intervalRef.current);
+        setDisplayValue(finalValue);
       }, stopDelay);
 
       return () => {
-        if (intervalRef.current !== null) clearInterval(intervalRef.current);
-        clearTimeout(timer);
+        if (intervalRef.current) clearInterval(intervalRef.current);
+        clearTimeout(timeout);
       };
+    } else {
+      setDisplayValue(finalValue);
     }
-  }, [spinning, hasStopped, values, finalValue, stopDelay]);
-
-  useEffect(() => {
-    if (!spinning) {
-      setHasStopped(false);
-      setDisplayedValues(['♡', '♡', '♡']);
-    }
-  }, [spinning, values]);
-
-  const isFastSpinning = spinning && !hasStopped;
+  }, [spinning, finalValue, values, stopDelay]);
 
   return (
-    <div
-      className="relative flex-1 h-full overflow-hidden"
-      style={{
-        background:
-          'linear-gradient(180deg, hsl(350 25% 92%) 0%, hsl(350 15% 97%) 20%, hsl(0 0% 100%) 50%, hsl(350 15% 97%) 80%, hsl(350 25% 92%) 100%)',
-        borderRadius: '4px',
-      }}
-    >
-      <div
-        className={`flex flex-col items-center justify-center h-full transition-all ${
-          isFastSpinning ? 'duration-0' : 'duration-500 ease-out'
+    <div className="flex-1 h-full flex items-center justify-center overflow-hidden">
+      <span
+        className={`font-bold transition-all duration-150 ${
+          spinning ? 'blur-[0.5px] scale-95 opacity-80' : 'scale-100 opacity-100'
         }`}
+        style={{
+          fontFamily: "'Cormorant Garamond', Georgia, serif",
+          fontSize: '1.35rem',
+          color: 'hsl(350, 30%, 30%)',
+          letterSpacing: '0.05em',
+        }}
       >
-        {displayedValues.map((val, idx) => (
-          <div
-            key={`${val}-${idx}`}
-            className={`flex-shrink-0 h-1/3 flex items-center justify-center w-full ${
-              idx === 1 ? '' : 'opacity-20'
-            }`}
-          >
-            <span
-              className={`font-bold tracking-widest transition-all duration-300 ${
-                hasStopped && idx === 1 ? 'scale-110' : ''
-              } ${val === '♡' ? 'text-sm sm:text-base' : 'text-xs sm:text-sm'}`}
-              style={{
-                fontFamily:
-                  val === '♡' ? 'Arial, sans-serif' : "'Cormorant Garamond', serif",
-                color:
-                  val === '♡'
-                    ? 'hsl(350 45% 70%)'
-                    : idx === 1
-                    ? hasStopped
-                      ? 'hsl(350 40% 40%)'
-                      : 'hsl(350 20% 30%)'
-                    : 'hsl(350 10% 70%)',
-                textShadow:
-                  idx === 1 && hasStopped
-                    ? '0 1px 3px hsla(350, 40%, 40%, 0.2)'
-                    : 'none',
-                letterSpacing: '0.15em',
-                WebkitTextStroke: val === '♡' ? '2px hsl(350 45% 70%)' : 'none',
-              }}
-            >
-              {val}
-            </span>
-          </div>
-        ))}
-      </div>
+        {displayValue}
+      </span>
     </div>
   );
-}
+};
+
+export default Reel;
