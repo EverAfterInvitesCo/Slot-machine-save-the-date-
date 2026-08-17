@@ -4,7 +4,6 @@ import { WeddingCard } from './WeddingCard';
 import { GameState, LeverState } from '../types';
 import { useSound } from '../hooks/useSound';
 import { triggerJackpotConfetti } from '../utils/confetti';
-import shellImage from '../assets/slot-machine-shell.png';
 
 const DAY_VALUES = ['01', '05', '10', '14', '19', '22', '25', '28', '30'];
 const MONTH_VALUES = ['JAN', 'FEB', 'MAR', 'APR', 'JUN', 'AUG', 'OCT', 'NOV', 'DEC'];
@@ -14,6 +13,9 @@ export const SlotMachine: React.FC = () => {
   const [gameState, setGameState] = useState<GameState>('idle');
   const [leverState, setLeverState] = useState<LeverState>('idle');
   const { startSpin, playReveal, stopAll } = useSound();
+
+  // Construct correct base URL path for GitHub Pages subpath
+  const shellImagePath = `${import.meta.env.BASE_URL}assets/slot-machine-shell.png`;
 
   const handleSpinSequence = useCallback(() => {
     setLeverState('pulling');
@@ -48,15 +50,16 @@ export const SlotMachine: React.FC = () => {
 
   return (
     <div id="slot-machine-container" className="flex flex-col items-center gap-5 w-full max-w-lg">
-      {/* Slot Machine Shell using Background Image */}
-      <div 
-        className="relative mx-auto bg-no-repeat bg-contain bg-center" 
-        style={{ 
-          width: '352px', 
-          height: '484px',
-          backgroundImage: `url(${shellImage})`
-        }}
-      >
+      {/* Slot Machine Shell */}
+      <div className="relative mx-auto" style={{ width: '352px', height: '484px' }}>
+        {/* Machine Shell Image */}
+        <img
+          src={shellImagePath}
+          alt="Slot machine"
+          className="absolute inset-0 w-full h-full object-contain pointer-events-none z-10"
+          draggable={false}
+        />
+
         {/* Reels Window Display */}
         <div
           id="slot-reels-window"
